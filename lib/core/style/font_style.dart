@@ -6,6 +6,11 @@ class FontStyles {
     fontSize: 15,
     fontWeight: FontWeight.w400,
   );
+    static const TextStyle regular16 = TextStyle(
+    color: Color(0xff000000),
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  );
   static const TextStyle regular24 = TextStyle(
     color: Color(0xff000000),
     fontSize: 24,
