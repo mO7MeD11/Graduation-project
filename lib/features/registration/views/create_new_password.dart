@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/widget/Pin_Code.dart';
+import 'package:graduationproject/features/registration/views/register_view.dart';
 import 'package:graduationproject/features/registration/widget/custom_button.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:graduationproject/features/registration/widget/custom_text_form_field.dart';
 
 class CreateNewPassword extends StatelessWidget {
   const CreateNewPassword({super.key});
@@ -11,26 +11,35 @@ class CreateNewPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE6E6E6),
+      backgroundColor: Color(0xffE8E8E8),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-
-          children: [
-            Gap(200),
-            Image.asset('assets/rased.png'),
-            Text('التحقيق من الرقم', style: FontStyles.regular24),
-            Gap(10),
-            Text(
-              'تم ارسال الرمزالتحقيق الي843 **** 010',
-              style: FontStyles.regular15,
-            ),
-            Gap(30),
-            PinCode(),
-            Gap(30),
-            CustomButton(text: 'تاكيد', onTap: () {}),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Gap(200),
+              Text('إنشاء كلمة مرور جديدة', style: FontStyles.regular24),
+              Gap(20),
+              Text(
+                'لاكمال تسجيل جسابك يرجي تعيين كلمة مرور قويه',
+                style: FontStyles.regular15,
+              ),
+              Gap(20),
+              Text('كلمة المرور الجديده', style: FontStyles.regular15),
+              Gap(13),
+              CustomTextFormField(),
+              Gap(10),
+              Text('تاكيد كلمة المرور', style: FontStyles.regular15),
+              Gap(13),
+              CustomTextFormField(),
+              Gap(30),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButton(text: 'دخول', onTap: () {}),
+              ),
+            ],
+          ),
         ),
       ),
     );
