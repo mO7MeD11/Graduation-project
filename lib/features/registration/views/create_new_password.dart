@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/views/register_view.dart';
 import 'package:graduationproject/features/registration/widget/custom_button.dart';
 import 'package:graduationproject/features/registration/widget/custom_text_form_field.dart';
 
@@ -28,11 +27,11 @@ class CreateNewPassword extends StatelessWidget {
               Gap(20),
               Text('كلمة المرور الجديده', style: FontStyles.regular15),
               Gap(13),
-              CustomTextFormField(),
+              CustomTextFormField(validator: (v) {}),
               Gap(10),
               Text('تاكيد كلمة المرور', style: FontStyles.regular15),
               Gap(13),
-              CustomTextFormField(),
+              CustomTextFormField(validator: (v) {}),
               Gap(30),
               SizedBox(
                 width: double.infinity,

@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       locale: const Locale('ar'),
-      home: CreateNewPassword(),
+      home: AccountTypeView(),
       builder: (context, child) {
         return Directionality(
           textDirection: TextDirection.ltr, // غير هنا من rtl إلى ltr

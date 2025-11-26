@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({super.key});
-
+  const CustomTextFormField({super.key, required this.validator});
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      validator: validator ,
+      
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
