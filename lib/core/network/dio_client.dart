@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:graduationproject/core/utils/pref_helper.dart';
 
+
 class DioClient {
   final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'https://sonic-zdi0.onrender.com/api',
+      baseUrl: 'https://rwv3cgg1-7262.euw.devtunnels.ms',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
     ),
   );
-
-  DioClient() {
+  
+  
+   DioClient() {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -26,5 +28,6 @@ class DioClient {
       ),
     );
   }
+
   Dio get dio => _dio;
 }

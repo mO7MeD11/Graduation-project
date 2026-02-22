@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduationproject/features/details/view/details_view.dart';
 import 'package:graduationproject/features/reportsList/widget/custom_report_container.dart';
 
 class ReportView extends StatelessWidget {
@@ -7,6 +8,8 @@ class ReportView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffE8E8E8),
+
       body: SizedBox(
         width: double.infinity,
         child: Padding(
@@ -18,12 +21,20 @@ class ReportView extends StatelessWidget {
                 'قائمة بلاغاتي',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
               ),
-             
-              CustomReportContainer(
-                name: 'أ ب ج ١٢٣٤',
-                details:
-                    'السائق يطلب أجرة أعلى من المقلسائق يطلب أجرة أعلى من المقر',
-                date: '١٥/١٠/٢٠٢٥',
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailsView()),
+                  );
+                },
+                child: CustomReportContainer(
+                  name: 'أ ب ج ١٢٣٤',
+                  details:
+                      'السائق يطلب أجرة أعلى من المقلسائق يطلب أجرة أعلى من المقر',
+                  date: '١٥/١٠/٢٠٢٥',
+                ),
               ),
             ],
           ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/views/login_view.dart';
-import 'package:graduationproject/features/registration/widget/custom_container.dart';
-import 'package:graduationproject/features/registration/widget/roale_card.dart';
+import 'package:graduationproject/features/auth/views/login_view.dart';
+import 'package:graduationproject/features/auth/widget/custom_container.dart';
+import 'package:graduationproject/features/auth/widget/roale_card.dart';
 
 class AccountTypeView extends StatelessWidget {
   const AccountTypeView({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/widget/Pin_Code.dart';
-import 'package:graduationproject/features/registration/widget/custom_button.dart';
+import 'package:graduationproject/features/auth/widget/Pin_Code.dart';
+import 'package:graduationproject/features/auth/widget/custom_button.dart';
 
 class OtpView extends StatelessWidget {
   const OtpView({super.key});

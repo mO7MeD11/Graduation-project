@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/views/register_view.dart';
-import 'package:graduationproject/features/registration/widget/custom_button.dart';
-import 'package:graduationproject/features/registration/widget/custom_text_form_field.dart';
+import 'package:graduationproject/features/auth/Cubit/regestration_Cubit.dart';
+import 'package:graduationproject/features/auth/Cubit/auth_state.dart';
+import 'package:graduationproject/features/auth/views/register_view.dart';
+import 'package:graduationproject/features/auth/widget/custom_button.dart';
+import 'package:graduationproject/features/auth/widget/custom_text_form_field.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -13,6 +17,12 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController ssnController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -35,6 +45,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text('رقم الجوال', style: FontStyles.regular15),
                 Gap(13),
                 CustomTextFormField(
+                  textController: phoneController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -46,6 +57,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text('الاسم بالكامل', style: FontStyles.regular15),
                 Gap(10),
                 CustomTextFormField(
+                  textController: nameController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -57,6 +69,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text('رقم القومي', style: FontStyles.regular15),
                 Gap(10),
                 CustomTextFormField(
+                  textController: ssnController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -69,6 +82,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Text('كلمة المرور', style: FontStyles.regular15),
                 Gap(13),
                 CustomTextFormField(
+                  textController: passwordController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -77,13 +91,46 @@ class _RegisterViewState extends State<RegisterView> {
                   },
                 ),
                 Gap(30),
-                SizedBox(
-                  width: double.infinity,
-                  child: CustomButton(
-                    text: 'دخول',
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {}
-                    },
+                BlocListener<SignupCubit, AuthState>(
+                  listener: (context, state) {
+                    if (state is LoadingState) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Row(
+                            children: [
+                              Text('loading '),
+                              CupertinoActivityIndicator(color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (state is SuccessState) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Success! login now ')),
+                      );
+                    } else if (state is ErrorState) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.message)));
+                    }
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      text: 'دخول',
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          BlocProvider.of<SignupCubit>(context).signup(
+                            name: nameController.text,
+
+                            password: passwordController.text,
+                            phone: phoneController.text,
+                            confirmPassword: passwordController.text,
+                            ssn: int.tryParse(ssnController.text) ?? 1213,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
                 Gap(13),
