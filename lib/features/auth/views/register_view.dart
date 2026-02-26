@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
 import 'package:graduationproject/features/auth/Cubit/regestration_Cubit.dart';
 import 'package:graduationproject/features/auth/Cubit/auth_state.dart';
+import 'package:graduationproject/features/auth/views/OTP_view.dart';
 import 'package:graduationproject/features/auth/views/register_view.dart';
 import 'package:graduationproject/features/auth/widget/custom_button.dart';
 import 'package:graduationproject/features/auth/widget/custom_text_form_field.dart';
@@ -106,7 +107,16 @@ class _RegisterViewState extends State<RegisterView> {
                       );
                     } else if (state is SuccessState) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Success! login now ')),
+                        SnackBar(content: Text('التحقق من الرقم')),
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return OtpView(phone: phoneController.text);
+                          },
+                        ),
                       );
                     } else if (state is ErrorState) {
                       ScaffoldMessenger.of(
@@ -128,6 +138,8 @@ class _RegisterViewState extends State<RegisterView> {
                             confirmPassword: passwordController.text,
                             ssn: int.tryParse(ssnController.text) ?? 1213,
                           );
+
+                         
                         }
                       },
                     ),

@@ -6,6 +6,8 @@ class LoadingState extends AuthState {}
 
 class SuccessState extends AuthState {}
 
+class SendOtpSuccess extends AuthState {}
+
 class ErrorState extends AuthState {
   final String message;
 

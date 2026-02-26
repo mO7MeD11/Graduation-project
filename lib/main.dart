@@ -7,6 +7,7 @@ import 'package:graduationproject/features/auth/views/create_new_password.dart';
 import 'package:graduationproject/features/reportsList/views/report_view.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

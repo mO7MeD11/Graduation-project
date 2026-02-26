@@ -29,7 +29,6 @@ class AuthRepo {
       });
       log("SUCCESS: $response");
       final user = UserModel.fromjson(response);
-
       PrefHelper.saveToken(user.token);
 
       currentUser = user;
@@ -53,6 +52,20 @@ class AuthRepo {
 
       currentUser = user;
       return user;
+    } on DioException catch (e) {
+      throw ApiException.handelError(e);
+    } catch (e) {
+      throw ApiError(message: e.toString());
+    }
+  }
+
+  Future<bool> sendOtp(String phone) async {
+    try {
+      var response = await apiService.post('/api/Account/send-otp', {
+        'phoneNumber': phone,
+      });
+
+      return response['success'] == true;
     } on DioException catch (e) {
       throw ApiException.handelError(e);
     } catch (e) {
