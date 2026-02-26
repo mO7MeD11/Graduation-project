@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
+import 'package:graduationproject/features/auth/Cubit/auth_state.dart';
 import 'package:graduationproject/features/auth/Cubit/regestration_Cubit.dart';
 import 'package:graduationproject/features/auth/widget/Pin_Code.dart';
 import 'package:graduationproject/features/auth/widget/custom_button.dart';
@@ -15,20 +17,17 @@ class OtpView extends StatefulWidget {
 }
 
 class _OtpViewState extends State<OtpView> {
-  
   @override
   void initState() {
-     
     super.initState();
-    
-    
-      
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<SignupCubit>(
-        context,
-      ).sendOtp(phone: widget.phone);  
+      BlocProvider.of<SignupCubit>(context).sendOtp(phone: widget.phone);
     });
   }
+
+  String code = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +47,48 @@ class _OtpViewState extends State<OtpView> {
               style: FontStyles.regular15,
             ),
             Gap(30),
-            PinCode(),
+            PinCode(
+              onChanged: (v) {
+                code = v;
+              },
+            ),
             Gap(30),
-            CustomButton(text: 'تاكيد', onTap: () {}),
+            BlocListener<SignupCubit, AuthState>(
+              listener: (context, state) {
+                if (state is VerifyOtpLoading) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          Text('loading '),
+                          CupertinoActivityIndicator(color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  );
+                } else if (state is VerifyOtpSuccess) {
+                } else if (state is VerifyOtpError) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(state.message)));
+                }
+              },
+              child: CustomButton(
+                text: 'تاكيد',
+                onTap: () {
+                  if (code.length != 4) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('من فضلك ادخل الكود كامل')),
+                    );
+                    return;
+                  }
+
+                  BlocProvider.of<SignupCubit>(
+                    context,
+                  ).verifyOtp(phone: widget.phone, code: code);
+                },
+              ),
+            ),
           ],
         ),
       ),

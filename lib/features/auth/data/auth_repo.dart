@@ -72,4 +72,17 @@ class AuthRepo {
       throw ApiError(message: e.toString());
     }
   }
+
+  Future<void> verifyOtp(String phone, String code) async {
+    try {
+      var response = await apiService.post('/api/Account/verify-otp', {
+        'phoneNumber': phone,
+        'code': code,
+      });
+    } on DioException catch (e) {
+      throw ApiException.handelError(e);
+    } catch (e) {
+      throw ApiError(message: e.toString());
+    }
+  }
 }

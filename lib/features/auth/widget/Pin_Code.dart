@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart' show PinCodeFieldShape, PinTheme, PinCodeTextField;
 
 class PinCode extends StatelessWidget {
-  const PinCode({super.key});
-
+  const PinCode({super.key, required this.onChanged});
+   final Function(String) onChanged;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -11,10 +11,11 @@ class PinCode extends StatelessWidget {
       child: PinCodeTextField(
         appContext: context,
         enableActiveFill: true,
-
+        onChanged: onChanged,
         length: 4,
 
         pinTheme: PinTheme(
+          
           shape: PinCodeFieldShape.box,
           borderRadius: BorderRadius.circular(5),
           fieldHeight: 40,

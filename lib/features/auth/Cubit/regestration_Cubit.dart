@@ -41,9 +41,24 @@ class SignupCubit extends Cubit<AuthState> {
       emit(SendOtpSuccess());
     } catch (e) {
       if (e is ApiError) {
-        emit(ErrorState(message: e.message));
+        emit(SendOtpError( e.message));
       } else {
-        emit(ErrorState(message: e.toString()));
+        emit(SendOtpError( e.toString()));
+      }
+    }
+  }
+
+  Future<void> verifyOtp({required String phone, required String code}) async {
+    try {
+      emit(VerifyOtpLoading());
+      await _authRepo.verifyOtp(phone, code);
+
+      emit(VerifyOtpSuccess());
+    } catch (e) {
+      if (e is ApiError) {
+        emit(VerifyOtpError( e.message));
+      } else {
+        emit(VerifyOtpError( e.toString()));
       }
     }
   }

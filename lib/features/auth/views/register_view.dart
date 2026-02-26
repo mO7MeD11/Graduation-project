@@ -138,8 +138,6 @@ class _RegisterViewState extends State<RegisterView> {
                             confirmPassword: passwordController.text,
                             ssn: int.tryParse(ssnController.text) ?? 1213,
                           );
-
-                         
                         }
                       },
                     ),
