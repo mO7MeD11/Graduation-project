@@ -1,7 +1,9 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class PrefHelper {
   static String tokenkey = 'token';
 
-  static get SharedPreferences => null;
+  
 
   static Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

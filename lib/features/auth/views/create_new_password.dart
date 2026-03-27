@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/registration/widget/custom_button.dart';
-import 'package:graduationproject/features/registration/widget/custom_text_form_field.dart';
+import 'package:graduationproject/features/auth/widget/custom_button.dart';
+import 'package:graduationproject/features/auth/widget/custom_text_form_field.dart';
 
-class CreateNewPassword extends StatelessWidget {
+class CreateNewPassword extends StatefulWidget {
   const CreateNewPassword({super.key});
 
+  @override
+  State<CreateNewPassword> createState() => _CreateNewPasswordState();
+}
+
+class _CreateNewPasswordState extends State<CreateNewPassword> {
+  
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,11 +37,15 @@ class CreateNewPassword extends StatelessWidget {
               Gap(20),
               Text('كلمة المرور الجديده', style: FontStyles.regular15),
               Gap(13),
-              CustomTextFormField(validator: (v) {}),
+              CustomTextFormField(
+                textController: oldPasswordController,
+                validator: (v) {}),
               Gap(10),
               Text('تاكيد كلمة المرور', style: FontStyles.regular15),
               Gap(13),
-              CustomTextFormField(validator: (v) {}),
+              CustomTextFormField(
+                textController: newPasswordController,
+                validator: (v) {}),
               Gap(30),
               SizedBox(
                 width: double.infinity,
