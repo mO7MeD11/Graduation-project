@@ -12,16 +12,18 @@ class SignupCubit extends Cubit<AuthState> {
     required String name,
     required String confirmPassword,
     required String password,
-    required String phone,
+    required String email,
     required int ssn,
+    required String phoneNumber,
   }) async {
     try {
       emit(LoadingState());
       await _authRepo.signup(
         name: name,
         confirmPassword: confirmPassword,
+        phoneNumber: phoneNumber,
         password: password,
-        phon: phone,
+        email: email,
         ssn: ssn,
       );
       emit(SuccessState());

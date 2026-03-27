@@ -13,7 +13,8 @@ class AuthRepo {
 
   Future<UserModel> signup({
     required String name,
-    required String phon,
+    required String email,
+    required String phoneNumber,
 
     required String password,
     required String confirmPassword,
@@ -22,7 +23,8 @@ class AuthRepo {
     try {
       var response = await apiService.post('/api/Account/register', {
         "fullName": name,
-        "phoneNumber": phon,
+        "email": email,
+        "phoneNumber": phoneNumber,
         "password": password,
         "confirmPassword": confirmPassword,
         "ssn": ssn,
@@ -40,10 +42,10 @@ class AuthRepo {
     }
   }
 
-  Future<UserModel> login(String phone, String password) async {
+  Future<UserModel> login(String email, String password) async {
     try {
       var response = await apiService.post('/api/Account/Login', {
-        'phoneNumber': phone,
+        'email': email,
         'password': password,
       });
 
@@ -59,10 +61,10 @@ class AuthRepo {
     }
   }
 
-  Future<bool> sendOtp(String phone) async {
+  Future<bool> sendOtp(String email) async {
     try {
       var response = await apiService.post('/api/Account/send-otp', {
-        'phoneNumber': phone,
+        'email': email,
       });
 
       return response['success'] == true;
@@ -73,10 +75,10 @@ class AuthRepo {
     }
   }
 
-  Future<void> verifyOtp(String phone, String code) async {
+  Future<void> verifyOtp(String email, String code) async {
     try {
       var response = await apiService.post('/api/Account/verify-otp', {
-        'phoneNumber': phone,
+        'email': email,
         'code': code,
       });
     } on DioException catch (e) {

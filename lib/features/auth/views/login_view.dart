@@ -39,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
                 Gap(20),
                 Text('ادخل بياناتك للمتابعه', style: FontStyles.regular15),
                 Gap(20),
-                Text('رقم الجوال', style: FontStyles.regular15),
+                Text('البريد الالكتروني', style: FontStyles.regular15),
                 Gap(13),
                 CustomTextFormField(
                   textController: phoneController,
@@ -73,8 +73,6 @@ class _LoginViewState extends State<LoginView> {
                       ScaffoldMessenger.of(
                         context,
                       ).showSnackBar(SnackBar(content: Text('success')));
-
-                     
                     } else if (state is LoadingState) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -94,8 +92,7 @@ class _LoginViewState extends State<LoginView> {
                       text: 'دخول',
                       onTap: () {
                         if (formKey.currentState!.validate()) {
-                          
-                            BlocProvider.of<LoginCubit>(context).login(
+                          BlocProvider.of<LoginCubit>(context).login(
                             phone: phoneController.text.trim(),
                             password: passwordController.text.trim(),
                           );

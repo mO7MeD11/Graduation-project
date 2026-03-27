@@ -43,7 +43,7 @@ class _OtpViewState extends State<OtpView> {
             Text('التحقيق من الرقم', style: FontStyles.regular24),
             Gap(10),
             Text(
-              '${maskedPhone(widget.phone)}تم ارسال الرمزالتحقيق الي',
+              '${widget.phone} تم ارسال الرمزالتحقيق الي',
               style: FontStyles.regular15,
             ),
             Gap(30),
@@ -67,6 +67,9 @@ class _OtpViewState extends State<OtpView> {
                     ),
                   );
                 } else if (state is VerifyOtpSuccess) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Row(children: [Text('Success')])),
+                  );
                 } else if (state is VerifyOtpError) {
                   ScaffoldMessenger.of(
                     context,
@@ -94,15 +97,4 @@ class _OtpViewState extends State<OtpView> {
       ),
     );
   }
-}
-
-String maskedPhone(String phone) {
-  if (phone.length <= 3) return phone;
-
-  final last3 = phone.substring(phone.length - 3);
-  final first3 = phone.substring(0, 3);
-  final starsCount = phone.length - 6;
-  final stars = '*' * starsCount;
-
-  return '$first3 $stars $last3';
 }

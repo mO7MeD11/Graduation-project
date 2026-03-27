@@ -20,8 +20,9 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController ssnController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -43,10 +44,10 @@ class _RegisterViewState extends State<RegisterView> {
                 Gap(20),
                 Text('ادخل بياناتك للمتابعه', style: FontStyles.regular15),
                 Gap(20),
-                Text('رقم الجوال', style: FontStyles.regular15),
+                Text('البريد الالكتروني', style: FontStyles.regular15),
                 Gap(13),
                 CustomTextFormField(
-                  textController: phoneController,
+                  textController: emailController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -71,6 +72,17 @@ class _RegisterViewState extends State<RegisterView> {
                 Gap(10),
                 CustomTextFormField(
                   textController: ssnController,
+                  validator: (v) {
+                    if (v == null || v.isEmpty) {
+                      return "this filed is required";
+                    }
+                    return null;
+                  },
+                ),
+                Text('رقم الهاتف', style: FontStyles.regular15),
+                Gap(10),
+                CustomTextFormField(
+                  textController: phoneNumberController,
                   validator: (v) {
                     if (v == null || v.isEmpty) {
                       return "this filed is required";
@@ -114,7 +126,7 @@ class _RegisterViewState extends State<RegisterView> {
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return OtpView(phone: phoneController.text);
+                            return OtpView(phone: emailController.text);
                           },
                         ),
                       );
@@ -132,9 +144,10 @@ class _RegisterViewState extends State<RegisterView> {
                         if (formKey.currentState!.validate()) {
                           BlocProvider.of<SignupCubit>(context).signup(
                             name: nameController.text,
+                            phoneNumber: phoneNumberController.text,
 
                             password: passwordController.text,
-                            phone: phoneController.text,
+                            email: emailController.text,
                             confirmPassword: passwordController.text,
                             ssn: int.tryParse(ssnController.text) ?? 1213,
                           );
