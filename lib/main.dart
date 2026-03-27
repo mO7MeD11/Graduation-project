@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/features/registration/views/account_type_view.dart';
-import 'package:graduationproject/features/registration/views/create_new_password.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:graduationproject/core/di/service_locator.dart';
+import 'package:graduationproject/core/di/service_locator.dart';
+import 'package:graduationproject/features/home/presentation/views/home_screen.dart';
+import 'package:graduationproject/features/home/presentation/views/map_selection_view.dart';
+import 'package:graduationproject/features/home/presentation/views/submit_complaint_view.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  setupServiceLocator();
+
   runApp(const MyApp());
 }
 
@@ -12,11 +21,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+
+      // 🌍 اللغة
       locale: const Locale('ar'),
-      home: AccountTypeView(),
+
+      // 🎨 Theme
+      theme: ThemeData(
+        useMaterial3: true,
+        textTheme: GoogleFonts.almaraiTextTheme(),
+      ),
+
+      // 🚀 البداية
+      initialRoute: '/submit-complaint',
+
+      // 🧭 Routes
+      routes: {
+        '/home': (_) => const HomeScreen(),
+        '/submit-complaint': (_) => const SubmitComplaintScreen(),
+        '/map-selection': (_) => const EgyptMapScreen(),
+      },
+
+      // 📱 RTL
       builder: (context, child) {
         return Directionality(
-          textDirection: TextDirection.ltr, // غير هنا من rtl إلى ltr
+          textDirection: TextDirection.rtl,
           child: child!,
         );
       },
