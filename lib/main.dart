@@ -4,6 +4,7 @@ import 'package:graduationproject/features/auth/Cubit/login_cubit.dart';
 import 'package:graduationproject/features/auth/Cubit/regestration_Cubit.dart';
 import 'package:graduationproject/features/auth/views/account_type_view.dart';
 import 'package:graduationproject/features/auth/views/create_new_password.dart';
+import 'package:graduationproject/features/map/view/map_view.dart';
 import 'package:graduationproject/features/reportsList/views/report_view.dart';
 
 void main() {
@@ -17,13 +18,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => SignupCubit()),
-        BlocProvider(create: (context) => LoginCubit())
-      
+      providers: [
+        BlocProvider(create: (context) => SignupCubit()),
+        BlocProvider(create: (context) => LoginCubit()),
       ],
       child: MaterialApp(
         locale: const Locale('ar'),
-        home: AccountTypeView(),
+        home: MapView(),
         builder: (context, child) {
           return Directionality(
             textDirection: TextDirection.ltr, // غير هنا من rtl إلى ltr
