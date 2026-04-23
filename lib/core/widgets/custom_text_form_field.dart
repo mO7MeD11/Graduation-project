@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/core/constants/app_colors.dart';
-import 'package:graduationproject/core/style/font_style.dart';
+import 'package:graduationproject3/core/constants/app_colors.dart';
+import 'package:graduationproject3/core/style/font_style.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hintText;
   final String? labelText;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
   final TextInputType? keyboardType;
   final int? maxLines;
+  final int? minLines;
   final bool obscureText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -23,8 +25,10 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.labelText,
     this.validator,
+    this.onChanged,
     this.keyboardType,
     this.maxLines = 1,
+    this.minLines,
     this.obscureText = false,
     this.prefixIcon,
     this.suffixIcon,
@@ -39,8 +43,10 @@ class CustomTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       validator: validator,
+      onChanged: onChanged,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      minLines: minLines,
       obscureText: obscureText,
       enabled: enabled,
       readOnly: readOnly,

@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/auth/Cubit/auth_state.dart';
-import 'package:graduationproject/features/auth/Cubit/login_cubit.dart';
-import 'package:graduationproject/features/auth/views/register_view.dart';
-import 'package:graduationproject/features/auth/widget/custom_button.dart';
-import 'package:graduationproject/features/auth/widget/custom_text_form_field.dart';
+import 'package:graduationproject3/core/style/font_style.dart';
+import 'package:graduationproject3/features/auth/Cubit/auth_state.dart';
+import 'package:graduationproject3/features/auth/Cubit/login_cubit.dart';
+import 'package:graduationproject3/features/auth/views/register_view.dart';
+import 'package:graduationproject3/features/auth/widget/custom_button.dart';
+import 'package:graduationproject3/features/auth/widget/custom_text_form_field.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

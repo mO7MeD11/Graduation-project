@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../../core/constants/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
-
-import '../../../../core/widgets/custom_button.dart' show CustomButton;
-import 'home_screen.dart';
+import 'package:graduationproject3/core/constants/app_colors.dart';
+import 'package:graduationproject3/core/theme/app_text_styles.dart';
+import 'package:graduationproject3/core/widgets/custom_button.dart';
+import 'package:graduationproject3/features/home/presentation/views/home_screen.dart';
 
 class SuccessScreen extends StatefulWidget {
   const SuccessScreen({super.key});

@@ -1,20 +1,18 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graduationproject/core/network/api_error.dart';
-import 'package:graduationproject/features/auth/Cubit/auth_state.dart';
-import 'package:graduationproject/features/auth/data/auth_repo.dart';
- 
+import 'package:graduationproject3/core/di/service_locator.dart';
+import 'package:graduationproject3/core/network/api_error.dart';
+import 'package:graduationproject3/features/auth/Cubit/auth_state.dart';
+import 'package:graduationproject3/features/auth/data/auth_repo.dart';
 
 class LoginCubit extends Cubit<AuthState> {
   LoginCubit() : super(InitialState());
 
-  AuthRepo authRepo = AuthRepo();
+  final AuthRepo authRepo = sl<AuthRepo>();
 
   Future<void> login({required String phone, required String password}) async {
     emit(LoadingState());
     try {
-      final result = await authRepo.login(phone, password);
-      
+      await authRepo.login(phone, password);
       emit(SuccessState());
     } catch (e) {
       if (e is ApiError) {

@@ -1,51 +1,29 @@
-import 'package:dio/dio.dart';
+import '../../../../core/network/api_service.dart';
+import '../../../../core/constants/api_constants.dart';
 
 class ComplaintRemoteDataSource {
-  final Dio dio;
+  final ApiService apiService;
 
-  ComplaintRemoteDataSource(this.dio);
+  ComplaintRemoteDataSource(this.apiService);
 
-  Future<void> submitComplaint(
-      String text,
-      double lat,
-      double lng,
-      ) async {
-    try {
-      await dio.post(
-        'https://rana-07-rased.hf.space/predict',
-
-        data: {
-          'text': text,
-          'lat': lat,
-          'lng': lng,
-        },
-
-      );
-    } catch (e) {
-      throw Exception('Failed to submit complaint: $e');
-    }
-  }
-
-  Future<List<String>> getSuggestion(String text) async {
-    try {
-      final response = await dio.post(
-        'https://adria-superchivalrous-remonstratively.ngrok-free.dev/complete',
-        queryParameters: {
-          'prompt': text,
-        },
-      );
-
-      final data = response.data;
-
-      final suggestions = data['suggestions'];
-
-      if (suggestions is List) {
-        return List<String>.from(suggestions);
-      }
-
-      return [];
-    } catch (e) {
-      throw Exception('Failed to get suggestions: $e');
-    }
+  Future<void> submitComplaint({
+    required String title,
+    required String description,
+    required String category,
+    String? imagePath,
+    double? lat,
+    double? lng,
+  }) async {
+    await apiService.post(
+      ApiConstants.complaints,
+      {
+        "title": title,
+        "description": description,
+        "category": category,
+        "image": imagePath,
+        "lat": lat,
+        "lng": lng,
+      },
+    );
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/auth/widget/custom_button.dart';
-import 'package:graduationproject/features/auth/widget/custom_text_form_field.dart';
+import 'package:graduationproject3/core/style/font_style.dart';
+import 'package:graduationproject3/features/auth/widget/custom_button.dart';
+import 'package:graduationproject3/features/auth/widget/custom_text_form_field.dart';
 
 class CreateNewPassword extends StatefulWidget {
   const CreateNewPassword({super.key});
@@ -39,13 +39,17 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
               Gap(13),
               CustomTextFormField(
                 textController: oldPasswordController,
-                validator: (v) {}),
+                validator: (v) {
+                  return null;
+                }),
               Gap(10),
               Text('تاكيد كلمة المرور', style: FontStyles.regular15),
               Gap(13),
               CustomTextFormField(
                 textController: newPasswordController,
-                validator: (v) {}),
+                validator: (v) {
+                  return null;
+                }),
               Gap(30),
               SizedBox(
                 width: double.infinity,

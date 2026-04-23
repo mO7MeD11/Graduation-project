@@ -14,6 +14,7 @@ class HomeRepositoryImpl implements HomeRepository {
       id: complaint.id,
       title: complaint.title,
       description: complaint.description,
+      category: complaint.category, // ✅ لازم تضيفي دي
     );
 
     return remote.submitComplaint(model);

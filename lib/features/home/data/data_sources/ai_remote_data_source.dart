@@ -1,25 +1,50 @@
-import 'package:dio/dio.dart';
+import '../../../../core/network/api_service.dart';
+import '../models/analysis_response_model.dart';
 
 class AiRemoteDataSource {
-  final Dio dio;
+  final ApiService apiService;
 
-  AiRemoteDataSource(this.dio);
-
-  Future<List<String>> autocomplete(String text) async {
-    final response = await dio.post(
-      "YOUR_AUTOCOMPLETE_API",
-      data: {"text": text},
+  AiRemoteDataSource(this.apiService);
+  Future<AnalysisResponseModel> classifyIssue(String text) async {
+    final response = await apiService.post(
+      '/analyze', // الـ Path بس
+      {"text": text}, // لازم الكلمة تكون text
     );
-
-    return List<String>.from(response.data["suggestions"]);
+    return AnalysisResponseModel.fromJson(response);
   }
 
-  Future<String> classifyIssue(String text) async {
-    final response = await dio.post(
-      "YOUR_CLASSIFY_API",
-      data: {"text": text},
+
+  Future<List<String>> autocomplete(String text) async {
+    final response = await apiService.post(
+      '/complete',
+      {
+        "prompt": text,
+        "n_suggestions": 3,
+      },
     );
 
-    return response.data["label"];
+    print("🔥 AUTOCOMPLETE RAW RESPONSE: $response");
+
+    // Case 1: List مباشرة
+    if (response is List) {
+      return response.map((e) => e.toString()).toList();
+    }
+
+    // Case 2: Map response
+    if (response is Map) {
+      if (response['suggestions'] is List) {
+        return List<String>.from(response['suggestions']);
+      }
+
+      if (response['result'] is String) {
+        return [response['result']];
+      }
+    }
+
+    return [];
+  }
+
+  Future<List<String>> getSuggestion(String text) async {
+    return autocomplete(text);
   }
 }

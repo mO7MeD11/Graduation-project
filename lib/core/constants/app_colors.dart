@@ -13,4 +13,7 @@ abstract class AppColors {
   static const Color textPrimary = Color(0xff1A1A1A);
   static const Color textSecondary = Color(0xff666666);
   static const success = Color(0xFF4CAF50);
+  
+  // New color for privacy screen content
+  static const Color privacyText = Color(0xFF06223D);
 }

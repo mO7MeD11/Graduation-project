@@ -5,7 +5,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:graduationproject/core/theme/app_colors.dart';
+import 'package:graduationproject3/core/theme/app_colors.dart';
 
 class EgyptMapScreen extends StatefulWidget {
   const EgyptMapScreen({super.key});
@@ -22,9 +22,10 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
   LatLng currentLocation = LatLng(31.0409, 31.3785);
 
   final MapController mapController = MapController();
-  double currentZoom = 10.0;
+  double currentZoom = 12.0;
 
   TextEditingController searchController = TextEditingController();
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -55,6 +56,8 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
       setState(() {
         currentLocation = LatLng(position.latitude, position.longitude);
         myLocation = currentLocation;
+        // نعتبر الموقع الحالي هو المختار مبدئياً
+        selectedLocation = currentLocation;
       });
 
       mapController.move(currentLocation, 14);
@@ -66,52 +69,96 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
 
     if (query.isEmpty) return;
 
-    final url = Uri.parse(
-        'https://nominatim.openstreetmap.org/search?q=$query+egypt&format=json&limit=1');
-
-    final response = await http.get(url, headers: {
-      "User-Agent": "com.example.rased"
+    setState(() {
+      isSearching = true;
     });
 
-    if (response.statusCode == 200) {
+    try {
+      final url = Uri.parse(
+          'https://nominatim.openstreetmap.org/search?q=${Uri.encodeComponent(query)}+egypt&format=json&limit=1&accept-language=ar');
 
-      final data = json.decode(response.body);
+      final response = await http.get(url, headers: {
+        "User-Agent": "com.example.rased"
+      });
 
-      if (data.isNotEmpty) {
+      if (response.statusCode == 200) {
 
-        final lat = double.parse(data[0]['lat']);
-        final lon = double.parse(data[0]['lon']);
+        final data = json.decode(response.body);
 
-        if (lat >= 22 && lat <= 31.7 && lon >= 25 && lon <= 35) {
+        if (data.isNotEmpty) {
 
-          final point = LatLng(lat, lon);
+          final lat = double.parse(data[0]['lat']);
+          final lon = double.parse(data[0]['lon']);
 
-          setState(() {
-            selectedLocation = point;
-          });
+          if (lat >= 22 && lat <= 31.7 && lon >= 25 && lon <= 35) {
 
-          mapController.move(point, 14);
+            final point = LatLng(lat, lon);
+
+            setState(() {
+              selectedLocation = point;
+            });
+
+            mapController.move(point, 15);
+          }
+        } else {
+           if(mounted) {
+             ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("لم يتم العثور على المكان")),
+            );
+           }
         }
       }
+    } catch (e) {
+       if(mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("حدث خطأ أثناء البحث")),
+          );
+       }
+    } finally {
+      setState(() {
+        isSearching = false;
+      });
     }
   }
 
   // ================= REVERSE =================
   Future<String> getPlaceName(double lat, double lon) async {
+    try {
+      final url = Uri.parse(
+          'https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$lon&format=json&addressdetails=1&accept-language=ar');
 
-    final url = Uri.parse(
-        'https://nominatim.openstreetmap.org/reverse?lat=$lat&lon=$lon&format=json');
+      final response = await http.get(url, headers: {
+        "User-Agent": "com.example.rased"
+      });
 
-    final response = await http.get(url, headers: {
-      "User-Agent": "com.example.rased"
-    });
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final address = data['address'];
+        
+        if (address != null) {
+          List<String> parts = [];
+          
+          // ترتيب العناوين من الأصغر للأكبر
+          if (address['road'] != null) parts.add(address['road']);
+          if (address['neighbourhood'] != null) parts.add(address['neighbourhood']);
+          if (address['suburb'] != null) parts.add(address['suburb']);
+          if (address['city_district'] != null) parts.add(address['city_district']);
+          if (address['town'] != null) parts.add(address['town']);
+          if (address['city'] != null) parts.add(address['city']);
+          if (address['state'] != null) parts.add(address['state']);
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return data['display_name'] ?? "مكان غير معروف";
+          if (parts.isNotEmpty) {
+            // لو العنوان طويل جداً، ناخد أول 3 أو 4 أجزاء بس
+            return parts.length > 3 ? parts.take(4).join('، ') : parts.join('، ');
+          }
+        }
+        return data['display_name']?.toString().split(',').first ?? "موقع محدد";
+      }
+    } catch (e) {
+      return "موقع محدد";
     }
 
-    return "مكان غير معروف";
+    return "موقع محدد";
   }
 
   // ================= ZOOM =================
@@ -150,8 +197,8 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
               ),
             ),
             child: Row(
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'تحديد موقع الشكوى',
                   style: TextStyle(
                     color: Colors.white,
@@ -159,9 +206,12 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Spacer(),
-                Icon(Icons.keyboard_arrow_left,
-                    color: Colors.white, size: 32),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Icon(Icons.keyboard_arrow_left,
+                      color: Colors.white, size: 32),
+                ),
               ],
             ),
           ),
@@ -169,11 +219,8 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
           const SizedBox(height: 15),
 
           // ================= MAP =================
-          Center(
-            child: SizedBox(
-              width: 393,
-              height: 426,
-              child: Stack(
+          Expanded(
+           child: Stack(
                 children: [
 
                   FlutterMap(
@@ -257,6 +304,9 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: const [
+                          BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))
+                        ]
                       ),
                       child: Row(
                         children: [
@@ -264,10 +314,12 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
                           Expanded(
                             child: TextField(
                               controller: searchController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 hintText: "ابحث عن مكان...",
                                 border: InputBorder.none,
+                                suffixIcon: isSearching ? const SizedBox(width: 20, height: 20, child: Padding(padding: EdgeInsets.all(10), child: CircularProgressIndicator(strokeWidth: 2))) : null,
                               ),
+                              onSubmitted: (val) => searchPlace(val),
                             ),
                           ),
 
@@ -284,7 +336,7 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
 
                   // ================= ZOOM =================
                   Positioned(
-                    bottom: 15,
+                    bottom: 100,
                     right: 15,
                     child: Column(
                       children: [
@@ -293,7 +345,8 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
                           heroTag: "z1",
                           mini: true,
                           onPressed: zoomIn,
-                          child: const Icon(Icons.add),
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.add, color: AppColors.primary),
                         ),
 
                         const SizedBox(height: 8),
@@ -302,51 +355,62 @@ class _EgyptMapScreenState extends State<EgyptMapScreen> {
                           heroTag: "z2",
                           mini: true,
                           onPressed: zoomOut,
-                          child: const Icon(Icons.remove),
+                          backgroundColor: Colors.white,
+                          child: const Icon(Icons.remove, color: AppColors.primary),
                         ),
                       ],
                     ),
                   ),
+
+                  // ================= CONFIRM BUTTON ON MAP =================
+                  Positioned(
+                    bottom: 20,
+                    left: 20,
+                    right: 20,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        minimumSize: const Size(double.infinity, 55),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+
+                      onPressed: () async {
+                        if (selectedLocation != null) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(child: CircularProgressIndicator()),
+                          );
+
+                          String name = await getPlaceName(
+                              selectedLocation!.latitude,
+                              selectedLocation!.longitude);
+
+                          if (mounted) {
+                            Navigator.pop(context); // Close dialog
+                            Navigator.pop(context, {
+                              "lat": selectedLocation!.latitude,
+                              "lng": selectedLocation!.longitude,
+                              "name": name
+                            });
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("يرجى تحديد موقع أولاً")),
+                          );
+                        }
+                      },
+
+                      child: const Text(
+                        "تأكيد الموقع",
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-
-          const SizedBox(height: 120),
-
-          // ================= CONFIRM =================
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                minimumSize: const Size(double.infinity, 55),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-
-              onPressed: () async {
-
-                if (selectedLocation != null) {
-
-                  String name = await getPlaceName(
-                      selectedLocation!.latitude,
-                      selectedLocation!.longitude);
-
-                  Navigator.pop(context, {
-                    "lat": selectedLocation!.latitude,
-                    "lng": selectedLocation!.longitude,
-                    "name": name
-                  });
-                }
-              },
-
-              child: const Text(
-                "تأكيد الموقع",
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              ),
-            ),
           ),
         ],
       ),

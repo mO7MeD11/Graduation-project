@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduationproject/features/details/widget/custom_card.dart';
+import 'package:graduationproject3/features/details/widget/custom_card.dart';
 
 class DetailsView extends StatelessWidget {
   const DetailsView({super.key});

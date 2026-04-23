@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:graduationproject/core/style/font_style.dart';
-import 'package:graduationproject/features/auth/views/login_view.dart';
-import 'package:graduationproject/features/auth/widget/custom_container.dart';
-import 'package:graduationproject/features/auth/widget/roale_card.dart';
+import 'package:graduationproject3/core/style/font_style.dart';
+import 'package:graduationproject3/features/auth/views/login_view.dart';
+import 'package:graduationproject3/features/auth/widget/custom_container.dart';
+import 'package:graduationproject3/features/auth/widget/roale_card.dart';
 
 class AccountTypeView extends StatefulWidget {
   const AccountTypeView({super.key});
@@ -18,61 +18,62 @@ class _AccountTypeViewState extends State<AccountTypeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE8E8E8),
+      backgroundColor: const Color(0xffE8E8E8),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-
           children: [
-            Gap(100),
-            Image.asset('assets/rased.png'),
-            Text('مر حبا في راصد', style: FontStyles.regular24),
-            Text('اختر نوع الحساب  ', style: FontStyles.regular15),
-            Gap(70),
+            const Gap(100),
+            // تعديل مسار الصورة
+            Image.asset('assets/images/rased.png'),
+            Text('مرحباً في راصد', style: FontStyles.regular24),
+            Text('اختر نوع الحساب', style: FontStyles.regular15),
+            const Gap(70),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginView()),
+                  MaterialPageRoute(builder: (context) => const LoginView()),
                 );
               },
-              child: RoleCard(
-                image: 'assets/person.svg',
+              child: const RoleCard(
+                image: 'assets/images/person.svg', // تعديل المسار
                 text1: 'راكب',
                 text2: 'للابلاغ ومتابعة الشكاوي',
-                color: 0xff778B94DE,
+                color: 0xff778B94,
               ),
             ),
-            Gap(18),
+            const Gap(18),
             GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginView()),
+                  MaterialPageRoute(builder: (context) => const LoginView()),
                 );
               },
-              child: RoleCard(
-                image: 'assets/car.svg',
+              child: const RoleCard(
+                image: 'assets/images/car.svg', // تعديل المسار
                 text1: 'سواق',
                 text2: 'لمتابعة الحالة والامتثال',
                 color: 0xffFFF4A0,
               ),
             ),
-            Gap(35),
+            const Gap(35),
             InkWell(
               onTap: () {
-                isActive = !isActive;
-                setState(() {});
+                setState(() {
+                  isActive = !isActive;
+                });
               },
-              child: CustomContainer(),
+              child: const CustomContainer(),
             ),
-            Gap(35),
-
+            const Gap(35),
             SizedBox(
               height: 90,
               child: isActive
-                  ? Row(
+                  ? const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomBox(
                           color1: Color(0xff26D829),
@@ -90,11 +91,11 @@ class _AccountTypeViewState extends State<AccountTypeView> {
                           color1: Color(0xffFD2121),
                           text1: '1012',
                           color2: Colors.black,
-                          text2: 'الطواري',
+                          text2: 'الطوارئ',
                         ),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -125,7 +126,7 @@ class CustomBox extends StatelessWidget {
           padding: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            color: Color(0xffFFFFFF),
+            color: const Color(0xffFFFFFF),
           ),
           child: Column(
             children: [

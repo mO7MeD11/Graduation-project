@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/features/Profile/views/profile_view.dart';
+import 'package:graduationproject3/features/Profile/views/profile_view.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../reportsList/views/report_view.dart' show ReportView;
 
 class HomeBottomNavigationBar extends StatelessWidget {
   const HomeBottomNavigationBar({super.key});
@@ -30,6 +31,12 @@ class HomeBottomNavigationBar extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const ProfileView()),
           );
+        }
+        else if (index == 2) {
+          Navigator.pushReplacement(
+          context,
+        MaterialPageRoute(builder: (_) => const ReportView()),
+        );
         }
 
       },

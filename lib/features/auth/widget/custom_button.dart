@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/core/style/font_style.dart';
+import 'package:graduationproject3/core/style/font_style.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({super.key, required this.text, required this.onTap});

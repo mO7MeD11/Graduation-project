@@ -1,11 +1,11 @@
-import '../repositories/complaint_repository.dart';
+import '../repositories/ai_repository.dart';
 
 class GetSuggestionUseCase {
-  final ComplaintRepository repository;
+  final AiRepository repository;
 
   GetSuggestionUseCase(this.repository);
 
-  Future<List<String>> call(String text) async {
-    return await repository.getSuggestion(text);
+  Future<List<String>> call(String text) {
+    return repository.autocomplete(text);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/features/details/view/details_view.dart';
-import 'package:graduationproject/features/reportsList/widget/custom_report_container.dart';
+import 'package:graduationproject3/features/details/view/details_view.dart';
+import 'package:graduationproject3/features/reportsList/widget/custom_report_container.dart';
 
 class ReportView extends StatelessWidget {
   const ReportView({super.key});

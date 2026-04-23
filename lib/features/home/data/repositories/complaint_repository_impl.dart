@@ -1,26 +1,18 @@
+import '../../domain/entities/complaint.dart';
 import '../../domain/repositories/complaint_repository.dart';
 import '../data_sources/complaint_remote_data_source.dart';
 
 class ComplaintRepositoryImpl implements ComplaintRepository {
-  final ComplaintRemoteDataSource remote;
+  final ComplaintRemoteDataSource remoteDataSource;
 
-  ComplaintRepositoryImpl(this.remote);
+  ComplaintRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<void> submitComplaint({
-    required String text,
-    required double lat,
-    required double lng,
-  }) {
-    return remote.submitComplaint(
-      text,
-      lat,
-      lng,
+  Future<void> submitComplaint(Complaint complaint) {
+    return remoteDataSource.submitComplaint(
+      title: complaint.title,
+      description: complaint.description,
+      category: complaint.category,
     );
-  }
-
-  @override
-  Future<List<String>> getSuggestion(String text) {
-    return remote.getSuggestion(text);
   }
 }

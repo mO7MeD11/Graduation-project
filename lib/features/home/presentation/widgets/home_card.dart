@@ -31,13 +31,13 @@ class HomeCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 43, color: iconColor),
+            Icon(icon, size: 65, color: iconColor),
             const SizedBox(height: 10),
             Text(
               title,
               style: const TextStyle(
                 fontFamily: 'Alamari',
-                fontSize: 16,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -45,7 +45,7 @@ class HomeCard extends StatelessWidget {
           subtitle,
           style: const TextStyle(
             fontFamily: 'Alamari',
-            fontSize: 14,
+            fontSize: 16,
             color: Colors.grey,
             ),
         )

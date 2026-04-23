@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:graduationproject/features/home/presentation/views/home_screen.dart';
-
+import 'package:graduationproject3/features/auth/views/account_type_view.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/style/font_style.dart';
 import '../../../core/widgets/custom_button.dart';
-import '../../home/presentation/views/home_screen.dart';
-import '../../registration/views/account_type_view.dart';
-import '../../widgets/logo_widget.dart';
+import '../widgets/logo_widget.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

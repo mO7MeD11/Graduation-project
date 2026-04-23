@@ -1,15 +1,17 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:graduationproject/core/network/api_error.dart';
-import 'package:graduationproject/core/network/api_exception.dart';
-import 'package:graduationproject/core/network/api_service.dart';
-import 'package:graduationproject/core/utils/pref_helper.dart';
-import 'package:graduationproject/features/auth/data/user_model.dart';
+import 'package:graduationproject3/core/network/api_error.dart';
+import 'package:graduationproject3/core/network/api_exception.dart';
+import 'package:graduationproject3/core/network/api_service.dart';
+import 'package:graduationproject3/core/utils/pref_helper.dart';
+import 'package:graduationproject3/features/auth/data/user_model.dart';
 
 class AuthRepo {
-  ApiService apiService = ApiService();
+  final ApiService apiService;
   UserModel? currentUser;
+
+  AuthRepo(this.apiService);
 
   Future<UserModel> signup({
     required String name,

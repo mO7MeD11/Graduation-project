@@ -2,13 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FontStyles {
+  static TextStyle regular14 = GoogleFonts.almarai(
+    color: const Color(0xff000000),
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+  );
   static TextStyle regular15 = GoogleFonts.almarai(
     color: const Color(0xff000000),
     fontSize: 15,
     fontWeight: FontWeight.w400,
   );
-
   static TextStyle regular16 = GoogleFonts.almarai(
+    color: const Color(0xff000000),
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+  );
+
+
+
+  static TextStyle regular18 = GoogleFonts.almarai(
     color: const Color(0xff000000),
     fontSize: 16,
     fontWeight: FontWeight.w400,
